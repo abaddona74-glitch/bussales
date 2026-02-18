@@ -91,6 +91,66 @@ app.get('/api/popular-routes', async (req, res) => {
   }
 });
 
+// Search trips by from/to city
+app.get('/api/search', async (req, res) => {
+  try {
+    const { from, to } = req.query;
+    if (!from || !to) {
+      return res.status(400).json({ error: 'from and to parameters are required' });
+    }
+
+    const trips = await prisma.trip.findMany({
+      where: {
+        route: {
+          fromCity: { name: from },
+          toCity: { name: to },
+        },
+        status: 'SCHEDULED',
+      },
+      include: {
+        route: {
+          include: {
+            fromCity: true,
+            toCity: true,
+          },
+        },
+        bus: true,
+      },
+      orderBy: {
+        departureTime: 'asc',
+      },
+    });
+
+    const formatted = trips.map(trip => {
+      const dep = new Date(trip.departureTime);
+      const arr = new Date(trip.arrivalTime);
+      const durationMin = Math.round((arr - dep) / 60000);
+      const hours = Math.floor(durationMin / 60);
+      const mins = durationMin % 60;
+
+      return {
+        id: trip.id,
+        departureTime: dep.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', hour12: false }),
+        arrivalTime: arr.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', hour12: false }),
+        duration: `${hours}s ${String(mins).padStart(2, '0')}m`,
+        price: trip.price,
+        from: trip.route.fromCity.name,
+        to: trip.route.toCity.name,
+        fromStation: trip.route.arrivalLocation ? `${trip.route.fromCity.name} Avtovokzal` : `${trip.route.fromCity.name}`,
+        toStation: trip.route.arrivalLocation || trip.route.toCity.name,
+        busModel: trip.bus.model,
+        seats: trip.bus.seats,
+        status: trip.status,
+      };
+    });
+
+    res.json(formatted);
+  } catch (error) {
+    console.error('Error searching trips:', error);
+    res.status(500).json({ error: 'Error searching trips' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

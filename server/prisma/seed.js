@@ -10,6 +10,11 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('Seeding started...');
 
+  // Clear old trips and bookings first
+  await prisma.booking.deleteMany({});
+  await prisma.trip.deleteMany({});
+  console.log('Cleared old trips and bookings');
+
   // Cities
   const cities = ['Toshkent', 'Samarqand', 'Buxoro', 'Xiva', 'Nukus'];
   const cityMap = {};
