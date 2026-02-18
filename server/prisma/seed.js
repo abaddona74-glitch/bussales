@@ -66,7 +66,7 @@ async function main() {
       distance: 1000,
       description: 'San\'at va madaniyat durdonasi.',
       arrivalLocation: 'Nukus Markaziy',
-      videoUrl: '/videos/Qoraqalpog\'iston davlat san\'at muzeyi.mp4',
+      videoUrl: '/videos/Nukus-muzey.mp4',
     }
   ];
 
