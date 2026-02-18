@@ -19,6 +19,10 @@ const Hero = () => {
     const [returnDate, setReturnDate] = useState('');
     const [passengers, setPassengers] = useState(1);
     const [isLocating, setIsLocating] = useState(false);
+    
+    // New state for dropdown and class
+    const [isPassengerDropdownOpen, setIsPassengerDropdownOpen] = useState(false);
+    const [travelClass, setTravelClass] = useState('ekonom'); // ekonom, business, comfort
 
     // Placeholder function for locating user
     // Since we don't have a backend to reverse geocode, we will simulate this or use a simple heuristic
@@ -67,9 +71,9 @@ const Hero = () => {
     };
 
     return (
-        <div className="bg-[#0C73FE] min-h-[500px] flex flex-col items-center pt-16 px-4 pb-20 text-white relative overflow-hidden">
+        <div className="bg-[#0C73FE] min-h-[500px] flex flex-col items-center pt-16 px-4 pb-20 text-white relative" onClick={() => setIsPassengerDropdownOpen(false)}>
             {/* Background elements */}
-            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
+            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay overflow-hidden"></div>
 
             <h1 className="text-3xl md:text-5xl font-bold text-center mb-10 z-10 max-w-4xl leading-tight">
                 Bu yerda arzozon avtobus chiptalari sotiladi
@@ -152,48 +156,125 @@ const Hero = () => {
                 </div>
 
                 {/* Date Input */}
-                <div className="relative flex-1 group bg-white p-0 hover:z-10 focus-within:z-10 md:border-l border-gray-100">
+                <div className="relative flex-1 group bg-white p-2 hover:z-10 focus-within:z-10 md:border-l border-gray-100 flex flex-col justify-center">
+                    <label className="text-xs text-gray-500 font-medium ml-3 mb-[-5px] block">Qachon</label>
                     <input 
                         type={date ? "date" : "text"}
                         onFocus={(e) => e.target.type = "date"}
                         onBlur={(e) => !date && (e.target.type = "text")}
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        placeholder="Qachon"
-                        className="w-full h-16 pl-4 pr-4 text-gray-800 font-medium text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F00] transition-shadow bg-transparent"
+                        placeholder="Sanani tanlang"
+                        className="w-full h-10 pl-3 pr-4 text-gray-800 font-bold text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F00] transition-shadow bg-transparent"
                     />
                 </div>
 
                  {/* Return Date Input */}
-                <div className="relative flex-1 group bg-white p-0 hover:z-10 focus-within:z-10 md:border-l border-gray-100 hidden lg:block">
+                <div className="relative flex-1 group bg-white p-2 hover:z-10 focus-within:z-10 md:border-l border-gray-100 flex flex-col justify-center">
+                     <label className="text-xs text-gray-500 font-medium ml-3 mb-[-5px] block">Qaytish</label>
                     <input 
                         type={returnDate ? "date" : "text"}
                         onFocus={(e) => e.target.type = "date"}
                         onBlur={(e) => !returnDate && (e.target.type = "text")}
                         value={returnDate}
                         onChange={(e) => setReturnDate(e.target.value)}
-                        placeholder="Qaytish"
-                        className="w-full h-16 pl-4 pr-4 text-gray-800 font-medium text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F00] transition-shadow bg-transparent"
+                        placeholder="Kerak emas"
+                        className="w-full h-10 pl-3 pr-4 text-gray-800 font-bold text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF7F00] transition-shadow bg-transparent"
                     />
+                     {returnDate && (
+                        <button 
+                            onClick={() => setReturnDate('')}
+                            className="absolute right-2 top-1/2 text-gray-400 hover:text-red-500 text-xs"
+                            title="Bekor qilish"
+                        >
+                            ✕
+                        </button>
+                    )}
                 </div>
 
-                {/* Passengers Input */}
-                <div className="relative w-full md:w-auto md:min-w-[180px] group bg-white p-0 hover:z-10 focus-within:z-10 md:border-l border-gray-100">
-                    <select 
-                        value={passengers}
-                        onChange={(e) => setPassengers(e.target.value)}
-                        className="w-full h-16 pl-4 pr-8 text-gray-800 font-medium text-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-[#FF7F00] transition-shadow appearance-none cursor-pointer"
+                {/* Passengers Input & Class (Custom Dropdown) */}
+                <div className="relative w-full md:w-auto md:min-w-[200px] group bg-white p-2 hover:z-10 focus-within:z-10 md:border-l border-gray-100 flex flex-col justify-center">
+                    <label className="text-xs text-gray-500 font-medium ml-3 mb-[-5px] block">Yo'lovchilar</label>
+                    <div 
+                        className="w-full h-10 pl-3 pr-8 flex items-center text-gray-800 font-bold text-lg cursor-pointer select-none"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsPassengerDropdownOpen(!isPassengerDropdownOpen);
+                        }}
                     >
-                        <option value={1}>1 yo'lovchi</option>
-                        <option value={2}>2 yo'lovchi</option>
-                        <option value={3}>3 yo'lovchi</option>
-                        <option value={4}>4 yo'lovchi</option>
-                    </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-gray-400">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
+                        <span className="truncate">
+                             {passengers} yo'lovchi, {travelClass === 'ekonom' ? 'Eko' : 'Kom'}
+                        </span>
+                        <div className="absolute right-2 top-1/2 pointer-events-none">
+                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-4 h-4 text-gray-400 transition-transform ${isPassengerDropdownOpen ? 'rotate-180' : ''}`}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
                     </div>
+
+                    {/* Dropdown Menu */}
+                    {isPassengerDropdownOpen && (
+                        <div 
+                            className="absolute top-full left-0 right-0 md:min-w-[280px] md:right-auto mt-2 bg-white rounded-xl shadow-2xl p-4 z-50 animate-in fade-in slide-in-from-top-2 border border-blue-100"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <h3 className="font-bold text-gray-800 mb-3">Yo'lovchilar soni</h3>
+                            
+                            {/* Passengers Counter */}
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <div className="font-medium text-gray-700">Kattalar</div>
+                                    <div className="text-xs text-gray-400">12 yosh va undan katta</div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <button 
+                                        onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                                        className={`w-8 h-8 rounded-full flex items-center justify-center border transition-colors ${passengers <= 1 ? 'border-gray-200 text-gray-300 bg-gray-50' : 'border-blue-100 text-blue-600 hover:bg-blue-50'}`}
+                                        disabled={passengers <= 1}
+                                    >
+                                        −
+                                    </button>
+                                    <span className="font-bold text-lg w-4 text-center">{passengers}</span>
+                                    <button 
+                                        onClick={() => setPassengers(Math.min(9, passengers + 1))}
+                                        className="w-8 h-8 rounded-full flex items-center justify-center border border-blue-100 text-blue-600 hover:bg-blue-50 transition-colors"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="h-px bg-gray-100 my-3"></div>
+
+                            <h3 className="font-bold text-gray-800 mb-3">Klass turi</h3>
+                            
+                            {/* Class Selection */}
+                            <div className="space-y-2">
+                                <label className="flex items-center justify-between cursor-pointer group p-2 rounded-lg hover:bg-gray-50">
+                                    <span className="text-gray-700 font-medium">Ekonom</span>
+                                    <input 
+                                        type="radio" 
+                                        name="travelClass" 
+                                        value="ekonom"
+                                        checked={travelClass === 'ekonom'}
+                                        onChange={() => setTravelClass('ekonom')}
+                                        className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                    />
+                                </label>
+                                <label className="flex items-center justify-between cursor-pointer group p-2 rounded-lg hover:bg-gray-50">
+                                    <span className="text-gray-700 font-medium">Komfort</span>
+                                    <input 
+                                        type="radio" 
+                                        name="travelClass" 
+                                        value="comfort"
+                                        checked={travelClass === 'comfort'}
+                                        onChange={() => setTravelClass('comfort')}
+                                        className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Search Button */}
