@@ -1,0 +1,67 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+             # Define project directory (customize this path)
+             PROJECT_DIR="/var/www/bussells" 
+             
+             # Create directory if not exists
+             mkdir -p $PROJECT_DIR
+             cd $PROJECT_DIR
+
+             # Pull latest changes (assuming repo is initialized)
+             # If not, clone first: git clone REPO_URL .
+             if [ -d ".git" ]; then
+               git pull origin main
+             else
+               git clone https://github.com/${{ github.repository }}.git .
+             fi
+
+             # Install frontend dependencies
+             echo "Installing frontend dependencies..."
+             npm install
+             
+             # Build frontend
+             echo "Building frontend..."
+             npm run build
+
+             # Install backend dependencies
+             echo "Installing backend dependencies..."
+             cd server 
+             npm install
+             
+             # Setup Database (Migration)
+             echo "Updating database schema..."
+             npx prisma migrate deploy
+             
+             # Return to root
+             cd ..
+
+             # Restart PM2 processes
+             if pm2 list | grep -q "bussells-backend"; then
+                 echo "Reloading application..."
+                 pm2 reload ecosystem.config.js
+             else
+                 echo "Starting application..."
+                 pm2 start ecosystem.config.js
+             fi
+             
+             echo "Deployment finished successfully!"
