@@ -58,10 +58,10 @@ jobs:
              # Restart PM2 processes
              if pm2 list | grep -q "bussells-backend"; then
                  echo "Reloading application..."
-                 pm2 reload ecosystem.config.js
+                 pm2 reload ecosystem.config.cjs
              else
                  echo "Starting application..."
-                 pm2 start ecosystem.config.js
+                 pm2 start ecosystem.config.cjs
              fi
              
              echo "Deployment finished successfully!"
