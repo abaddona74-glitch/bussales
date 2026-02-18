@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import TicketModal from '../components/TicketModal';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
@@ -16,6 +17,7 @@ const SearchResults = () => {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedTrip, setSelectedTrip] = useState(null);
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -88,7 +90,10 @@ const SearchResults = () => {
               
               <div className="flex flex-col items-end gap-2 text-right border-t md:border-t-0 pt-4 md:pt-0">
                 <span className="text-2xl font-bold text-blue-600">{formatPrice(trip.price)} so'm</span>
-                <button className="bg-[#FF7F00] hover:bg-[#ff8c1a] text-white font-medium py-2 px-6 rounded-lg transition-colors w-full md:w-auto">
+                <button 
+                  onClick={() => setSelectedTrip(trip)}
+                  className="bg-[#FF7F00] hover:bg-[#ff8c1a] text-white font-medium py-2 px-6 rounded-lg transition-colors w-full md:w-auto"
+                >
                   Tanlash
                 </button>
               </div>
@@ -102,6 +107,11 @@ const SearchResults = () => {
           </div>
         )}
       </div>
+
+      {/* Ticket Modal */}
+      {selectedTrip && (
+        <TicketModal trip={selectedTrip} onClose={() => setSelectedTrip(null)} />
+      )}
     </div>
   );
 };
