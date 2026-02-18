@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 const { PrismaPg } = require('@prisma/adapter-pg');
 const { PrismaClient } = require('@prisma/client');
-require('dotenv').config();
 
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -25,6 +25,7 @@ app.get('/api/cities', async (req, res) => {
     const cities = await prisma.city.findMany();
     res.json(cities);
   } catch (error) {
+    console.error('Error fetching cities:', error);
     res.status(500).json({ error: 'Error fetching cities' });
   }
 });
@@ -69,7 +70,10 @@ app.get('/api/popular-routes', async (req, res) => {
             to: route.toCity.name,   // "Samarqand"
             price: route.price,
             frequency: frequency, 
-            tag: tag
+            tag: tag,
+            description: route.description,    // NEW
+            arrivalLocation: route.arrivalLocation, // NEW
+            videoUrl: route.videoUrl           // NEW
         };
     });
 

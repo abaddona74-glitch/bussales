@@ -59,7 +59,10 @@ async function main() {
       duration: 240, // 4 hours
       price: 55000,
       frequency: 'Har kuni 12 ta reys', // Just for logic reference, not stored directly yet
-      tag: 'Arzon'
+      tag: 'Arzon',
+      description: 'Samarqandning mashhur Registon maydoni va Shohi-Zinda maqbarasiga sayohat.',
+      arrivalLocation: 'Samarqand Avtovokzal (Registon yonida)',
+      videoUrl: 'https://www.youtube.com/embed/ABCDEFG', // Placeholder
     },
     {
       from: 'Toshkent',
@@ -68,7 +71,10 @@ async function main() {
       duration: 480, // 8 hours
       price: 85000,
       frequency: 'Har kuni 8 ta reys',
-      tag: ''
+      tag: '',
+      description: 'Qadimgi Buxoro shahrining minoralarini o\'z ko\'zingiz bilan ko\'ring.',
+      arrivalLocation: 'Buxoro Markaziy Avtovokzal',
+      videoUrl: 'https://www.youtube.com/embed/XYZ1234', // Placeholder
     },
     {
       from: 'Toshkent',
@@ -77,7 +83,10 @@ async function main() {
       duration: 840, // 14 hours
       price: 120000,
       frequency: 'Haftada 4 kun',
-      tag: ''
+      tag: '',
+      description: 'Xiva - ochiq osmon ostidagi shahar-muzey.',
+      arrivalLocation: 'Xiva Avtovokzal (Ichan Qal\'a yaqinida)',
+      videoUrl: 'https://www.youtube.com/embed/LMNOP56', // Placeholder
     }
   ];
 
@@ -96,7 +105,10 @@ async function main() {
         update: {
             price: route.price,
             distance: route.distance,
-            duration: route.duration
+            duration: route.duration,
+            description: route.description,    // Add this
+            arrivalLocation: route.arrivalLocation, // Add this
+            videoUrl: route.videoUrl,          // Add this
         },
         create: {
           fromCityId: fromId,
@@ -104,6 +116,9 @@ async function main() {
           distance: route.distance,
           duration: route.duration,
           price: route.price,
+          description: route.description,    // Add this
+          arrivalLocation: route.arrivalLocation, // Add this
+          videoUrl: route.videoUrl,          // Add this
         },
       });
       console.log(`Upserted route: ${route.from} -> ${route.to}`);

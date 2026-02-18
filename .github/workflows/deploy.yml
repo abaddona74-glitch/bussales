@@ -47,6 +47,10 @@ jobs:
              echo "Installing backend dependencies..."
              cd server 
              npm install
+
+             # Generate Prisma Client
+             echo "Generating Prisma Client..."
+             npx prisma generate
              
              # Setup Database (Migration)
              echo "Updating database schema..."

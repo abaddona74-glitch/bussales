@@ -61,6 +61,9 @@ model Route {
   distance    Float
   duration    Int      // Minutes
   price       Float    // Base price
+  videoUrl    String?  // URL to a video about the destination/route
+  description String?  // Detailed description of the route/destination
+  arrivalLocation String? // Specific arrival location in the destination city
   fromCity    City     @relation("RouteFrom", fields: [fromCityId], references: [id])
   toCity      City     @relation("RouteTo", fields: [toCityId], references: [id])
   trips       Trip[]
