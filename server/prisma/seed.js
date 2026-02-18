@@ -36,7 +36,7 @@ async function main() {
       distance: 300,
       description: 'Samarqandning mashhur Registon maydoni va Shohi-Zinda maqbarasiga sayohat.',
       arrivalLocation: 'Registon',
-      videoUrl: 'https://www.youtube.com/embed/ABCDEFG',
+      videoUrl: '/videos/Registan.mp4',
     },
     {
       from: 'Toshkent',
@@ -46,7 +46,7 @@ async function main() {
       distance: 600,
       description: 'Qadimgi Buxoro shahrining minoralarini o\'z ko\'zingiz bilan ko\'ring.',
       arrivalLocation: 'Bukhara Old City',
-      videoUrl: 'https://www.youtube.com/embed/XYZ1234',
+      videoUrl: '/videos/AmirTemur.mp4',
     },
     {
       from: 'Toshkent',
@@ -56,7 +56,7 @@ async function main() {
       distance: 800,
       description: 'Ichan Qal\'aning afsonaviy ko\'chalarida sayr qiling.',
       arrivalLocation: 'Khiva. Ichan Kala Old City',
-      videoUrl: 'https://www.youtube.com/embed/MNO5678',
+      videoUrl: '/videos/Ichan Kala Old City.mp4',
     },
      {
       from: 'Toshkent',
@@ -66,7 +66,7 @@ async function main() {
       distance: 1000,
       description: 'San\'at va madaniyat durdonasi.',
       arrivalLocation: 'Nukus Markaziy',
-      videoUrl: null,
+      videoUrl: '/videos/Qoraqalpog\'iston davlat san\'at muzeyi.mp4',
     }
   ];
 

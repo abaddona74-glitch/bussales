@@ -71,7 +71,7 @@ const Home = () => {
 
       {/* MODAL WINDOW */}
       {selectedRoute && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={closeModal}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={closeModal}>
               <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-300" onClick={e => e.stopPropagation()}>
                   
                   {/* Header */}
@@ -111,14 +111,12 @@ const Home = () => {
                       {selectedRoute.videoUrl && (
                           <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
                               <div className="aspect-video w-full">
-                                  <iframe 
-                                      className="w-full h-full"
+                                  <video 
+                                      className="w-full h-full object-cover"
                                       src={selectedRoute.videoUrl} 
-                                      title="Destination Video"
-                                      frameBorder="0"
-                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                      allowFullScreen
-                                  ></iframe>
+                                      controls
+                                      preload="metadata"
+                                  />
                               </div>
                           </div>
                       )}
