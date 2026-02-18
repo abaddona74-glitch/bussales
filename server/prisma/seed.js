@@ -11,13 +11,98 @@ async function main() {
   console.log('Seeding started...');
 
   // Cities
-  const cityData = [
-    { name: 'Toshkent' },
-    { name: 'Samarqand' },
-    { name: 'Buxoro' },
-    { name: 'Xiva' },
-    { name: 'Navoiy' },
-    { name: 'Nukus' },
+  const cities = ['Toshkent', 'Samarqand', 'Buxoro', 'Xiva', 'Navoiy', 'Nukus'];
+  const cityMap = {};
+
+  for (const cityName of cities) {
+    const city = await prisma.city.upsert({
+      where: { name: cityName },
+      update: {},
+      create: { name: cityName },
+    });
+    console.log(`Upserted city: ${city.name}`);
+    cityMap[city.name] = city.id;
+  }
+
+  // Create Routes
+  // Note: createMany is supported but relation IDs must be known.
+  // Since we have cityMap, we can use createMany for bulk insertion if no conflicts,
+  // but upsert is safer if running seed multiple times.
+
+  const routes = [
+    {
+      from: 'Toshkent',
+      to: 'Samarqand',
+      price: 150000,
+      duration: 300,
+      distance: 300,
+      description: 'Toshkentdan Samarqandga qulay avtobus qatnovi',
+      arrivalLocation: 'Samarqand avtovokzali'
+    },
+    {
+      from: 'Toshkent',
+      to: 'Buxoro',
+      price: 200000,
+      duration: 420,
+      distance: 600,
+      description: 'Toshkentdan Buxoroga qulay avtobus qatnovi',
+      arrivalLocation: 'Buxoro avtovokzali'
+    },
+    {
+      from: 'Toshkent',
+      to: 'Xiva',
+      price: 250000,
+      duration: 540,
+      distance: 800,
+      description: 'Toshkentdan Xivaga qulay avtobus qatnovi',
+      arrivalLocation: 'Xiva avtovokzali'
+    }
+  ];
+
+  for (const route of routes) {
+      if (!cityMap[route.from] || !cityMap[route.to]) {
+          console.warn(`Skipping route ${route.from} -> ${route.to}: City not found`);
+          continue;
+      }
+
+      await prisma.route.upsert({
+          where: {
+              fromCityId_toCityId: {
+                  fromCityId: cityMap[route.from],
+                  toCityId: cityMap[route.to]
+              }
+          },
+          update: {
+              price: route.price,
+              duration: route.duration,
+              distance: route.distance,
+              description: route.description,
+              arrivalLocation: route.arrivalLocation
+          },
+          create: {
+              fromCityId: cityMap[route.from],
+              toCityId: cityMap[route.to],
+              price: route.price,
+              duration: route.duration,
+              distance: route.distance,
+              description: route.description,
+              arrivalLocation: route.arrivalLocation
+          }
+      });
+      console.log(`Upserted route: ${route.from} -> ${route.to}`);
+  }
+
+  console.log('Seeding finished.');
+}
+
+main()
+  .catch(e => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
   ];
 
   const citiesMap = {};
