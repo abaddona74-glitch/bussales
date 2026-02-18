@@ -68,7 +68,7 @@ const Navbar = () => {
         <div className="relative" ref={dropdownRef}>
           <button 
             onClick={() => setShowPassengers(!showPassengers)}
-            className="hidden sm:flex items-center gap-1 hover:text-blue-100 opacity-90 hover:opacity-100"
+            className="flex items-center gap-1 hover:text-blue-100 opacity-90 hover:opacity-100"
           >
             Yo'lovchilar
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={`w-3.5 h-3.5 transition-transform ${showPassengers ? 'rotate-180' : ''}`}>
@@ -105,7 +105,7 @@ const Navbar = () => {
         </div>
 
         <a href="#" className="hidden sm:block hover:text-blue-100 opacity-90 hover:opacity-100">Podderjka</a>
-        <button className="border border-white/30 rounded px-2 py-1 text-xs hover:bg-white/10 uppercase">
+        <button className="hidden sm:block border border-white/30 rounded px-2 py-1 text-xs hover:bg-white/10 uppercase">
             UZS · RU
         </button>
       </div>
