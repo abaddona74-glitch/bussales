@@ -21,7 +21,7 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
              # Define project directory (customize this path)
-             PROJECT_DIR="/var/www/bussells" 
+             PROJECT_DIR="/var/www/bussells/bussales" 
              
              # Create directory if not exists
              mkdir -p $PROJECT_DIR
