@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero';
+import VideoPlayer from '../components/VideoPlayer';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const Home = () => {
       {/* MODAL WINDOW */}
       {selectedRoute && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={closeModal}>
-              <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-300" onClick={e => e.stopPropagation()}>
+              <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-300" onClick={e => e.stopPropagation()}>
                   
                   {/* Header */}
                   <div className="bg-blue-600 p-6 text-white flex justify-between items-center">
@@ -107,17 +108,14 @@ const Home = () => {
                           </div>
                       </div>
 
-                      {/* Video Section */}
+                      {/* Video Section - Video.js + Mux Data Monitoring */}
                       {selectedRoute.videoUrl && (
                           <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                              <div className="aspect-video w-full">
-                                  <video 
-                                      className="w-full h-full object-cover"
-                                      src={selectedRoute.videoUrl} 
-                                      controls
-                                      preload="metadata"
-                                  />
-                              </div>
+                              <VideoPlayer
+                                  key={selectedRoute.id}
+                                  src={selectedRoute.videoUrl}
+                                  title={`${selectedRoute.from} → ${selectedRoute.to}`}
+                              />
                           </div>
                       )}
 

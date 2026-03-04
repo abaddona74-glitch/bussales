@@ -1,0 +1,207 @@
+/* ===== Bussales Video.js Custom Theme ===== */
+
+/* Player container */
+.video-js.vjs-theme-bussales {
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Big play button */
+.video-js.vjs-theme-bussales .vjs-big-play-button {
+  background-color: rgba(12, 115, 254, 0.85);
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  font-size: 2.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(12, 115, 254, 0.4);
+}
+
+.video-js.vjs-theme-bussales .vjs-big-play-button:hover {
+  background-color: rgba(255, 127, 0, 0.9);
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(255, 127, 0, 0.5);
+}
+
+.video-js.vjs-theme-bussales .vjs-big-play-button .vjs-icon-placeholder::before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Control bar */
+.video-js.vjs-theme-bussales .vjs-control-bar {
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  height: 4em;
+  padding: 0 8px;
+}
+
+/* Progress bar */
+.video-js.vjs-theme-bussales .vjs-progress-control .vjs-play-progress {
+  background-color: #FF7F00;
+}
+
+.video-js.vjs-theme-bussales .vjs-progress-control .vjs-play-progress::before {
+  color: #FF7F00;
+  font-size: 1em;
+  top: -0.3em;
+}
+
+.video-js.vjs-theme-bussales .vjs-progress-control .vjs-load-progress {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.video-js.vjs-theme-bussales .vjs-progress-control .vjs-load-progress div {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Slider */
+.video-js.vjs-theme-bussales .vjs-slider {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Volume */
+.video-js.vjs-theme-bussales .vjs-volume-level {
+  background-color: #0C73FE;
+}
+
+/* Time display */
+.video-js.vjs-theme-bussales .vjs-time-control {
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0 4px;
+}
+
+/* Playback rate button */
+.video-js.vjs-theme-bussales .vjs-playback-rate .vjs-playback-rate-value {
+  font-size: 1.1em;
+  font-weight: 600;
+  line-height: 3em;
+  pointer-events: none;
+}
+
+/* Playback rate menu — tepaga ochilishi kerak */
+.video-js.vjs-theme-bussales .vjs-playback-rate .vjs-menu {
+  bottom: 3em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  min-width: 60px;
+}
+
+/* Menu (tezlik, sifat va boshqa) */
+.video-js.vjs-theme-bussales .vjs-menu-button-popup .vjs-menu {
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.video-js.vjs-theme-bussales .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 8px;
+  padding: 4px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.video-js.vjs-theme-bussales .vjs-menu li {
+  padding: 6px 16px;
+  font-size: 0.9em;
+  text-align: center;
+  cursor: pointer;
+}
+
+.video-js.vjs-theme-bussales .vjs-menu li.vjs-selected {
+  background-color: #0C73FE;
+  color: #fff;
+  font-weight: 600;
+}
+
+.video-js.vjs-theme-bussales .vjs-menu li:hover {
+  background-color: rgba(12, 115, 254, 0.5);
+}
+
+/* Hover state */
+.video-js.vjs-theme-bussales:hover .vjs-big-play-button {
+  opacity: 1;
+}
+
+/* Loading spinner */
+.video-js.vjs-theme-bussales .vjs-loading-spinner {
+  border-color: rgba(12, 115, 254, 0.7);
+}
+
+.video-js.vjs-theme-bussales .vjs-loading-spinner::before,
+.video-js.vjs-theme-bussales .vjs-loading-spinner::after {
+  border-top-color: #0C73FE;
+}
+
+/* Poster */
+.video-js.vjs-theme-bussales .vjs-poster {
+  background-size: cover;
+  background-position: center;
+}
+
+/* ===== Quality Selector (DOM-based) ===== */
+.vjs-quality-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4em;
+  cursor: pointer;
+}
+
+.vjs-quality-btn {
+  background: none;
+  border: none;
+  color: #FF7F00;
+  font-size: 0.85em;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+.vjs-quality-btn:hover {
+  color: #fff;
+}
+
+.vjs-quality-menu {
+  position: absolute;
+  bottom: 3.2em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 8px;
+  padding: 4px 0;
+  min-width: 80px;
+  z-index: 200;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.vjs-quality-item {
+  padding: 7px 16px;
+  font-size: 0.85em;
+  color: #ccc;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.vjs-quality-item:hover {
+  background: rgba(12, 115, 254, 0.5);
+  color: #fff;
+}
+
+.vjs-quality-item.vjs-quality-selected {
+  background: #0C73FE;
+  color: #fff;
+  font-weight: 600;
+}
